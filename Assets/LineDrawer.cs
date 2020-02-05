@@ -8,6 +8,8 @@ public class LineDrawer : MonoBehaviour
     public float LineSpeed;
     public Color color1;
     public Color color2;
+    public Vector3 linePosition1 ;
+    public Vector3 linePosition2;
     
     private float CameraHeight;
     private float CameraWidth;
@@ -85,8 +87,10 @@ public class LineDrawer : MonoBehaviour
         {
             child.Translate(Vector2.down * LineSpeed * Time.deltaTime);
             LineRenderer lr = child.gameObject.GetComponent<LineRenderer>();
-            lr.SetPosition(0, child.position);
-            lr.SetPosition(1, child.position + Vector3.down * LineLength);
+            linePosition1 = child.position; //set for colors of obstacles
+            linePosition2 = child.position + Vector3.down * LineLength;
+            lr.SetPosition(0, linePosition1);
+            lr.SetPosition(1, linePosition2);
         }
     }
 }

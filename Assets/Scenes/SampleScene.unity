@@ -263,6 +263,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacdd59d772fb90ec8ba45f6497dba1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Obstacle1: {fileID: 5753670531782359451, guid: 3e6d5ab15bfc783faab65fccad3e2d04,
+    type: 3}
+  Obstacles: {fileID: 781131740}
+  ObstacleSpeed: 1
+--- !u!1 &781131740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781131741}
+  m_Layer: 0
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781131741
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781131740}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.042482678, y: 1.0656701, z: -22.31004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1497524329
 GameObject:
   m_ObjectHideFlags: 0
