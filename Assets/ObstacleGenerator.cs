@@ -9,9 +9,12 @@ public class ObstacleGenerator : MonoBehaviour
 	public GameObject Obstacles;
 	public float ObstacleSpeed;
 
+	private float xCoord;
+
     // Start is called before the first frame update
     void Start()
     {
+	    xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect;
 	    // following will be later moved to a automatic generating method: 
 	    Instantiate(Obstacle1, new Vector3(1.65f, 1.0f, 1.0f), Quaternion.identity, Obstacles.transform); // right lane
 	    /*Instantiate(Obstacle1, new Vector3(-1.65f, 1.0f, 1.0f), Quaternion.identity * Quaternion.Euler(0, 180f, 0), Obstacles.transform); //left lane
