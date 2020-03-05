@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private int currentLine;
-    
+    private Vector2? MovingTo;
     private float CameraHeight;
     private float CameraWidth;
     private float WidthFactor = 0.7f;
@@ -23,14 +23,17 @@ public class PlayerController : MonoBehaviour
     {
         transform.Rotate(0.0f, 0.0f, 1.0f, Space.Self);
         if (SwipeInput.swipedLeft && currentLine > 0 && PlayerIsOnLine(currentLine))
-        {
-            MoveToLine(currentLine - 1);
-            currentLine--;
-        }
+            MoveToLine(--currentLine);
         else if (SwipeInput.swipedRight && currentLine < 2 && PlayerIsOnLine(currentLine))
+            MoveToLine(++currentLine);
+        
+
+        if (MovingTo != null) // for smooth transition
         {
-            MoveToLine(currentLine + 1);
-            currentLine++;
+            Debug.Log("Should be Moving");
+            transform.position = Vector2.MoveTowards(transform.position, MovingTo ?? new Vector2(), 0.5f);
+            if (MovingTo == transform.position)
+                MovingTo = null;
         }
     }
 
@@ -38,11 +41,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("MovedToLine: " + line);
         if (line == 0)
-            transform.position = new Vector2(CameraWidth * -WidthFactor, transform.position.y);
+            MovingTo = new Vector2(CameraWidth * -WidthFactor, transform.position.y);
         else if (line == 2)
-            transform.position = new Vector2(CameraWidth * WidthFactor, transform.position.y);
+            MovingTo = new Vector2(CameraWidth * WidthFactor, transform.position.y);
         else
-            transform.position = new Vector2(0, transform.position.y);
+            MovingTo = new Vector2(0, transform.position.y);
     }
 
     bool PlayerIsOnLine(int line)

@@ -4,8 +4,7 @@ using UnityEngine;
 public class ObstacleGenerator : MonoBehaviour
 {
 
-	public GameObject Obstacle1;
-
+	public GameObject Obstacle1; //Prefab
 	public GameObject Obstacles;
 	public float ObstacleSpeed;
 
