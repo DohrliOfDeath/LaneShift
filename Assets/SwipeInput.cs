@@ -23,7 +23,6 @@ public class SwipeInput : MonoBehaviour {
 	public static bool swipedUp = false;
 	public static bool swipedDown = false;
 	
-	
 	public bool debugWithArrowKeys = true;
 
 	Vector2 startPos;
@@ -50,32 +49,30 @@ public class SwipeInput : MonoBehaviour {
 					return;
 
 				Vector2 endPos = new Vector2(t.position.x/(float)Screen.width, t.position.y/(float)Screen.width);
-
 				Vector2 swipe = new Vector2(endPos.x - startPos.x, endPos.y - startPos.y);
 
 				if (swipe.magnitude < MIN_SWIPE_DISTANCE) // Too short swipe
 					return;
 
-				if (Mathf.Abs (swipe.x) > Mathf.Abs (swipe.y)) { // Horizontal swipe
-					if (swipe.x > 0) {
+				if (Mathf.Abs (swipe.x) > Mathf.Abs (swipe.y)) 
+				{ // Horizontal swipe
+					if (swipe.x > 0)
 						swipedRight = true;
-					}
-					else {
+					else 
 						swipedLeft = true;
-					}
 				}
-				else { // Vertical swipe
-					if (swipe.y > 0) {
+				else 
+				{ // Vertical swipe
+					if (swipe.y > 0) 
 						swipedUp = true;
-					}
-					else {
+					else 
 						swipedDown = true;
-					}
 				}
 			}
 		}
 
-		if (debugWithArrowKeys) {
+		if (debugWithArrowKeys) 
+		{
 			swipedDown = swipedDown || Input.GetKeyDown (KeyCode.DownArrow);
 			swipedUp = swipedUp|| Input.GetKeyDown (KeyCode.UpArrow);
 			swipedRight = swipedRight || Input.GetKeyDown (KeyCode.RightArrow);

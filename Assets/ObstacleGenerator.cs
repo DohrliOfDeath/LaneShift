@@ -14,16 +14,7 @@ public class ObstacleGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-	    xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect;
-	    // following will be later moved to a automatic generating method: 
-	    Instantiate(Obstacle1, new Vector3(1.65f, 1.0f, 1.0f), Quaternion.identity, Obstacles.transform); // right lane
-	    /*Instantiate(Obstacle1, new Vector3(-1.65f, 1.0f, 1.0f), Quaternion.identity * Quaternion.Euler(0, 180f, 0), Obstacles.transform); //left lane
-	    Instantiate(Obstacle1, new Vector3(-0.1f, 1.0f, 1.0f), Quaternion.identity, Obstacles.transform); //mid lane 1
-	    Instantiate(Obstacle1, new Vector3(0.1f, 1.0f, 1.0f), Quaternion.identity * Quaternion.Euler(0, 180f, 0), Obstacles.transform); //mid lane 2
-	    */
-	    int i = 0;
-		foreach (Transform child in Obstacles.transform)
-			child.name = "obstacle " + i++;
+	    xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect; // 1.65f on my phone
     }
 
     // Update is called once per frame
@@ -33,10 +24,13 @@ public class ObstacleGenerator : MonoBehaviour
 		    Generator();
 	    Destroyer();
 	    
-	    foreach (Transform child in Obstacles.transform)
+	    int i = 0;
+	    foreach (Transform child in Obstacles.transform) //stuff for the different obstacles is here
 	    {
 		    ColorChanger(child);
 		    child.Translate(Vector2.down * (ObstacleSpeed * Time.deltaTime));
+		    if (!child.name.Contains("obstacle"))
+			    child.name = "obstacle " + i++;
 	    }
     }
 
@@ -49,7 +43,34 @@ public class ObstacleGenerator : MonoBehaviour
 
     void Generator()
     {
+	    System.Random rnd = new System.Random();
+	    float xPosition = rnd.Next(0, 4);
+	    float yPosition = rnd.Next(5, 20);
+	    Quaternion rotation = Quaternion.identity;
+	    switch (xPosition)
+	    {
+		    case 0: //left
+			    xPosition = -xCoord;
+			    rotation *= Quaternion.Euler(0, 180f, 0);
+				break;
+		    case 1: //mid left
+			    xPosition = -xCoord / 16.5f;
+			    break;
+		    case 2: //mid right
+			    xPosition = xCoord / 16.5f;
+			    rotation *= Quaternion.Euler(0, 180f, 0);
+			    break;
+		    case 3: //right
+			    xPosition = xCoord;
+			    break;
+	    }
+	    bool isAvailable = true;
+	    foreach (Transform obstacle in Obstacles.transform)
+		    if (Math.Abs(obstacle.position.y - yPosition) < 1.0f && Math.Abs(obstacle.position.x - xPosition) < 0.05f)
+			    isAvailable = false;
 	    
+	    if (isAvailable)
+			Instantiate(Obstacle1, new Vector3(xPosition, yPosition, 1.0f), rotation, Obstacles.transform);
     }
     
     void ColorChanger(Transform child)
@@ -61,6 +82,5 @@ public class ObstacleGenerator : MonoBehaviour
 	    
 	    child.GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
 		    GetComponent<LineDrawer>().color1, obstaclePosition);
-
     }
 }
