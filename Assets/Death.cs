@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject Obstacles;
+    public bool GodMode = false;
     private void Start()
     {
     }
@@ -19,7 +15,10 @@ public class Death : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.transform.parent.name == "Obstacles")
+        if (other.transform.parent.name == "Obstacles" && !GodMode)
+        {             
             Debug.Log("Death");
+            SceneManager.LoadScene("DeathScene", LoadSceneMode.Single);
+        }
     }
 }

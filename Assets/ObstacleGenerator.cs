@@ -1,41 +1,51 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class ObstacleGenerator : MonoBehaviour
 {
-
-	public GameObject Obstacle1; //Prefab
-	public GameObject Obstacles;
-	public float ObstacleSpeed;
-
-	private float xCoord;
+	[FormerlySerializedAs("Obstacle1")] public GameObject obstacle1; //Prefab
+	[FormerlySerializedAs("Obstacles")] public GameObject obstacles;
+	[FormerlySerializedAs("ObstacleSpeed")] public float obstacleSpeed;
+	
+	public GameObject scoreText;
+	private float _xCoord;
 
     // Start is called before the first frame update
     void Start()
     {
-	    xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect; // 1.65f on my phone
+	    _xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect; // 1.65f on my phone
     }
 
     // Update is called once per frame
     void Update()
     {
-	    if (Obstacles.transform.childCount <= 10)
+	    if (obstacles.transform.childCount <= 10)
 		    Generator();
 	    Destroyer();
 	    
 	    int i = 0;
-	    foreach (Transform child in Obstacles.transform) //stuff for the different obstacles is here
+	    foreach (Transform child in obstacles.transform) //stuff for the different obstacles is here
 	    {
 		    ColorChanger(child);
-		    child.Translate(Vector2.down * (ObstacleSpeed * Time.deltaTime));
+		    
+		    child.Translate(Vector2.down * (obstacleSpeed * Time.deltaTime));
 		    if (!child.name.Contains("obstacle"))
 			    child.name = "obstacle " + i++;
 	    }
+	    
+	    var obstaclePosition = Math.Abs(1 / (Math.Abs(GetComponent<LineDrawer>().linePosition1.y) + 
+	                                         Math.Abs(GetComponent<LineDrawer>().linePosition2.y)) * 
+	                                    (Math.Abs(GetComponent<LineDrawer>().linePosition2.y) + 
+	                                     Math.Abs(scoreText.transform.position.y)) - 0.1f);
+	    scoreText.GetComponent<Text>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
+		    GetComponent<LineDrawer>().color1, obstaclePosition);
     }
 
     void Destroyer()
     {
-	    foreach (Transform child in Obstacles.transform)
+	    foreach (Transform child in obstacles.transform)
 		    if (-child.position.y - 1 > Camera.main.orthographicSize)
 			    Destroy(child.gameObject);
     }
@@ -49,27 +59,22 @@ public class ObstacleGenerator : MonoBehaviour
 	    switch (xPosition)
 	    {
 		    case 0: //left
-			    xPosition = -xCoord;
+			    xPosition = -_xCoord;
 			    rotation *= Quaternion.Euler(0, 180f, 0);
 				break;
 		    case 1: //mid left
-			    xPosition = -xCoord / 16.5f;
+			    xPosition = -_xCoord / 16.5f;
 			    break;
 		    case 2: //mid right
-			    xPosition = xCoord / 16.5f;
+			    xPosition = _xCoord / 16.5f;
 			    rotation *= Quaternion.Euler(0, 180f, 0);
 			    break;
 		    case 3: //right
-			    xPosition = xCoord;
+			    xPosition = _xCoord;
 			    break;
 	    }
-	    bool isAvailable = true;
-	    foreach (Transform obstacle in Obstacles.transform)
-		    if (Math.Abs(obstacle.position.y - yPosition) < 1.0f && Math.Abs(obstacle.position.x - xPosition) < 0.05f)
-			    isAvailable = false;
-	    
-	    if (isAvailable)
-			Instantiate(Obstacle1, new Vector3(xPosition, yPosition, 1.0f), rotation, Obstacles.transform);
+	    if (IsPosAvailable(xPosition, yPosition))
+			Instantiate(obstacle1, new Vector3(xPosition, yPosition, 1.0f), rotation, obstacles.transform);
     }
     
     void ColorChanger(Transform child)
@@ -81,5 +86,28 @@ public class ObstacleGenerator : MonoBehaviour
 	    
 	    child.GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
 		    GetComponent<LineDrawer>().color1, obstaclePosition);
+	    
+    }
+
+    bool IsPosAvailable(float xPos, float yPos)
+    {
+	    bool isAvailable = true;
+	    int xNumberAround = 1;
+	    foreach (Transform obstacle in obstacles.transform)
+	    {
+		    if (Math.Abs(obstacle.position.y - yPos) < 1.0f)
+			    xNumberAround++;
+		    if (Math.Abs(obstacle.position.y - yPos) < 1.0f && Math.Abs(obstacle.position.x - xPos) < 0.05f)
+		    {
+			    isAvailable = false;
+			    break;
+		    }
+		    if (xNumberAround == 3)
+		    {
+			    isAvailable = false;
+			    break;
+		    }
+	    }
+	    return isAvailable;
     }
 }

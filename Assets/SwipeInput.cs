@@ -12,71 +12,71 @@
 public class SwipeInput : MonoBehaviour {
 
 	// If the touch is longer than MAX_SWIPE_TIME, we dont consider it a swipe
-	public const float MAX_SWIPE_TIME = 0.5f; 
+	public const float MaxSwipeTime = 0.5f; 
 	
 	// Factor of the screen width that we consider a swipe
 	// 0.17 works well for portrait mode 16:9 phone
-	public const float MIN_SWIPE_DISTANCE = 0.17f;
+	public const float MinSwipeDistance = 0.17f;
 
-	public static bool swipedRight = false;
-	public static bool swipedLeft = false;
-	public static bool swipedUp = false;
-	public static bool swipedDown = false;
+	public static bool SwipedRight = false;
+	public static bool SwipedLeft = false;
+	public static bool SwipedUp = false;
+	public static bool SwipedDown = false;
 	
 	public bool debugWithArrowKeys = true;
 
-	Vector2 startPos;
-	float startTime;
+	Vector2 _startPos;
+	float _startTime;
 
 	public void Update()
 	{
-		swipedRight = false;
-		swipedLeft = false;
-		swipedUp = false;
-		swipedDown = false;
+		SwipedRight = false;
+		SwipedLeft = false;
+		SwipedUp = false;
+		SwipedDown = false;
 
 		if(Input.touches.Length > 0)
 		{
 			Touch t = Input.GetTouch(0);
 			if(t.phase == TouchPhase.Began)
 			{
-				startPos = new Vector2(t.position.x/(float)Screen.width, t.position.y/(float)Screen.width);
-				startTime = Time.time;
+				_startPos = new Vector2(t.position.x/(float)Screen.width, t.position.y/(float)Screen.width);
+				_startTime = Time.time;
 			}
 			if(t.phase == TouchPhase.Ended)
 			{
-				if (Time.time - startTime > MAX_SWIPE_TIME) // press too long
+				if (Time.time - _startTime > MaxSwipeTime) // press too long
 					return;
 
 				Vector2 endPos = new Vector2(t.position.x/(float)Screen.width, t.position.y/(float)Screen.width);
-				Vector2 swipe = new Vector2(endPos.x - startPos.x, endPos.y - startPos.y);
+				Vector2 swipe = new Vector2(endPos.x - _startPos.x, endPos.y - _startPos.y);
 
-				if (swipe.magnitude < MIN_SWIPE_DISTANCE) // Too short swipe
+				if (swipe.magnitude < MinSwipeDistance) // Too short swipe
 					return;
 
 				if (Mathf.Abs (swipe.x) > Mathf.Abs (swipe.y)) 
 				{ // Horizontal swipe
 					if (swipe.x > 0)
-						swipedRight = true;
+						SwipedRight = true;
 					else 
-						swipedLeft = true;
+						SwipedLeft = true;
 				}
 				else 
 				{ // Vertical swipe
 					if (swipe.y > 0) 
-						swipedUp = true;
+						SwipedUp = true;
 					else 
-						swipedDown = true;
+						SwipedDown = true;
 				}
 			}
 		}
 
 		if (debugWithArrowKeys) 
 		{
-			swipedDown = swipedDown || Input.GetKeyDown (KeyCode.DownArrow);
-			swipedUp = swipedUp|| Input.GetKeyDown (KeyCode.UpArrow);
-			swipedRight = swipedRight || Input.GetKeyDown (KeyCode.RightArrow);
-			swipedLeft = swipedLeft || Input.GetKeyDown (KeyCode.LeftArrow);
+			SwipedDown = SwipedDown || Input.GetKeyDown (KeyCode.DownArrow);
+			SwipedUp = SwipedUp|| Input.GetKeyDown (KeyCode.UpArrow);
+			SwipedRight = SwipedRight || Input.GetKeyDown (KeyCode.RightArrow);
+			SwipedLeft = SwipedLeft || Input.GetKeyDown (KeyCode.LeftArrow);
 		}
 	}
 }

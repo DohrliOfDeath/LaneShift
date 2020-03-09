@@ -61,6 +61,8 @@
      <Compile Include="Assets\ObstacleGenerator.cs" />
      <Compile Include="Assets\PlayerController.cs" />
      <Compile Include="Assets\SwipeInput.cs" />
+     <Compile Include="Assets\UIPositionChanger.cs" />
+     <None Include="Assets\tarrget\tarrget.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>/media/Data/Michi/Programmieren/C#/Games/2D_Games/Lane Shift/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

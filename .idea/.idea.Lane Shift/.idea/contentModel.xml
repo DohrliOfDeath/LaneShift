@@ -11,6 +11,10 @@
         <e p="ObstacleGenerator.cs" t="Include" />
         <e p="PlayerController.cs" t="Include" />
         <e p="SwipeInput.cs" t="Include" />
+        <e p="UIPositionChanger.cs" t="Include" />
+        <e p="tarrget" t="Include">
+          <e p="tarrget.txt" t="Include" />
+        </e>
       </e>
       <e p="Lane Shift.sln" t="IncludeFlat" />
       <e p="Temp/bin" t="ExcludeRecursive" />
