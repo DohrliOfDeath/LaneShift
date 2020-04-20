@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private float _cameraHeight;
     private float _cameraWidth;
     private float _widthFactor = 0.7f;
+
+    public bool rotatingPlayer = false;
     
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0.0f, 0.0f, 1.0f, Space.Self);
+        if(rotatingPlayer)
+            transform.Rotate(0.0f, 0.0f, 1.0f, Space.Self);
         if (SwipeInput.SwipedLeft && _currentLine > 0 && PlayerIsOnLine(_currentLine))
             MoveToLine(--_currentLine);
         else if (SwipeInput.SwipedRight && _currentLine < 2 && PlayerIsOnLine(_currentLine))

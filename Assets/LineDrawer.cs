@@ -11,8 +11,9 @@ public class LineDrawer : MonoBehaviour
     public Color color2;
     public Vector3 linePosition1 ;
     public Vector3 linePosition2;
-    public float score = 0;
+    public float score = 0.0f;
     public Text scoreText;
+    
     
     private float _cameraHeight;
     private float _cameraWidth;
@@ -20,7 +21,16 @@ public class LineDrawer : MonoBehaviour
     private float _widthFactor;
     private float _lineLength;
     private bool _wasLastLineReversed;
-    private Color[] _allColors = new[] {Color.blue, Color.cyan, Color.gray, Color.green, Color.magenta, Color.red, Color.yellow}; //Color.black, Color.clear, Color.white,
+    private Color[] _allColors =
+    {
+        Color.blue,
+        Color.cyan,
+        Color.gray,
+        Color.green,
+        Color.magenta,
+        Color.red,
+        Color.yellow
+    }; //Color.black, Color.clear, Color.white,
     
     // Start is called before the first frame update
     void Start()
@@ -58,10 +68,10 @@ public class LineDrawer : MonoBehaviour
             System.Random rnd = new System.Random();
             color1 = _allColors[rnd.Next(0, _allColors.Length)];
             Debug.Log("Color1: " + color1 + "    Color2: " + color2);
-            
-            int childNumber = transform.childCount;
-            for (int i = 0; i < childNumber; i++)
-                DrawLine(new Vector2(transform.GetChild(i).position.x, transform.GetChild(i).position.y + _lineLength), new Vector2(transform.GetChild(i).position.x, transform.GetChild(i).position.y));
+            int parentSize = transform.childCount;
+            for (int i = 0; i < parentSize; i++)
+                DrawLine(new Vector2(transform.GetChild(i).position.x, transform.GetChild(i).position.y + _lineLength),
+                    transform.GetChild(i).position);
         }
 
         if (transform.GetChild(0).position.y < -_cameraHeight - 1 && transform.childCount >= 3)

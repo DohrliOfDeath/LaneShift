@@ -9,12 +9,15 @@ public class ObstacleGenerator : MonoBehaviour
 	[FormerlySerializedAs("Obstacles")] public GameObject obstacles;
 	[FormerlySerializedAs("ObstacleSpeed")] public float obstacleSpeed;
 	
-	public GameObject scoreText;
+	public GameObject canvas;
+	public GameObject scoreBar;
 	private float _xCoord;
 
     // Start is called before the first frame update
     void Start()
     {
+	    canvas = GameObject.Find("Canvas");
+	    scoreBar = GameObject.Find("scorebar");
 	    _xCoord = 0.66f * Camera.main.orthographicSize * Camera.main.aspect; // 1.65f on my phone
     }
 
@@ -35,12 +38,17 @@ public class ObstacleGenerator : MonoBehaviour
 			    child.name = "obstacle " + i++;
 	    }
 	    
-	    var obstaclePosition = Math.Abs(1 / (Math.Abs(GetComponent<LineDrawer>().linePosition1.y) + 
-	                                         Math.Abs(GetComponent<LineDrawer>().linePosition2.y)) * 
-	                                    (Math.Abs(GetComponent<LineDrawer>().linePosition2.y) + 
-	                                     Math.Abs(scoreText.transform.position.y)) - 0.1f);
-	    scoreText.GetComponent<Text>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
-		    GetComponent<LineDrawer>().color1, obstaclePosition);
+	    if (transform.GetChild(0).position.y > 7.0f || transform.GetChild(0).position.y < 3.0f)
+	    {
+		    var obstaclePosition = Math.Abs(1 / (Math.Abs(GetComponent<LineDrawer>().linePosition1.y) + 
+	                                          Math.Abs(GetComponent<LineDrawer>().linePosition2.y)) * 
+			    (Math.Abs(GetComponent<LineDrawer>().linePosition2.y) + 
+			     Math.Abs(scoreBar.transform.position.y)) - 0.1f);
+			Color currentColor = Color.Lerp(GetComponent<LineDrawer>().color2,
+				GetComponent<LineDrawer>().color1, obstaclePosition);
+			foreach (Transform child in canvas.transform)
+				child.gameObject.GetComponent<Text>().color = currentColor;
+	    }
     }
 
     void Destroyer()
@@ -84,9 +92,9 @@ public class ObstacleGenerator : MonoBehaviour
 	                                      (Math.Abs(GetComponent<LineDrawer>().linePosition2.y) + 
 	                                       Math.Abs(child.position.y)) - 0.1f);
 	    
-	    child.GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
-		    GetComponent<LineDrawer>().color1, obstaclePosition);
-	    
+	    if (transform.GetChild(0).position.y > 7.0f || transform.GetChild(0).position.y < 3.0f)
+			child.GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<LineDrawer>().color2,
+				GetComponent<LineDrawer>().color1, obstaclePosition);
     }
 
     bool IsPosAvailable(float xPos, float yPos)
