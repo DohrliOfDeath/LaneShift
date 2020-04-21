@@ -5850,7 +5850,7 @@ MonoBehaviour:
   pressSpace: {fileID: 1780642472}
   lines: {fileID: 776631636}
   obstacleGenerator: {fileID: 776631637}
-  GodMode: 1
+  GodMode: 0
 --- !u!1 &1512912905
 GameObject:
   m_ObjectHideFlags: 0
