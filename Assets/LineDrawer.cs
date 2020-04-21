@@ -13,7 +13,7 @@ public class LineDrawer : MonoBehaviour
     public Vector3 linePosition2;
     public float score = 0.0f;
     public Text scoreText;
-    
+    public ObstacleGenerator obstacleGenerator;
     
     private float _cameraHeight;
     private float _cameraWidth;
@@ -59,7 +59,7 @@ public class LineDrawer : MonoBehaviour
     {
         MoveLines();
         
-        score+=0.1f;
+        score += obstacleGenerator.obstacleSpeed/30;
         scoreText.text = Math.Round(score, 0).ToString();
         
         if (transform.GetChild(0).position.y < _cameraHeight + 1 && transform.childCount <= 3)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class UIPositionChanger : MonoBehaviour
 {
@@ -16,6 +11,7 @@ public class UIPositionChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Screen.SetResolution(540, 1080, false);
         camAnim = gameObject.GetComponent<Animator>();
         _xMod = Camera.main.orthographicSize * Camera.main.aspect;
         _yMod = Camera.main.orthographicSize; 

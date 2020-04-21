@@ -10,6 +10,7 @@ public class Death : MonoBehaviour
     public Text powerUpText;
     public Text pressSpace;
     public LineDrawer lines;
+    public ObstacleGenerator obstacleGenerator;
     
     public bool GodMode = false;
     private void Start()
@@ -22,9 +23,12 @@ public class Death : MonoBehaviour
     {
         powerUpCounter = Convert.ToInt32(powerUpText.text);
         if (Math.Abs(lines.score % 10) < 0.1f && powerUpCounter > 0)
+        {
             powerUpText.text =  (--powerUpCounter).ToString();
+            obstacleGenerator.obstacleSpeed += 0.05f * Time.deltaTime;
+        }
         
-        if  (Input.GetKeyDown (KeyCode.Space) && powerUpCounter == 0)
+        if  (SwipeInput.SwipedUp && powerUpCounter == 0)
         {
             Camera.main.gameObject.GetComponent<UIPositionChanger>().CamShake();
             ps.Play();
