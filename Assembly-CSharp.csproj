@@ -60,6 +60,7 @@
      <Compile Include="Assets\LineDrawer.cs" />
      <Compile Include="Assets\ObstacleGenerator.cs" />
      <Compile Include="Assets\PlayerController.cs" />
+     <Compile Include="Assets\Restart.cs" />
      <Compile Include="Assets\SwipeInput.cs" />
      <Compile Include="Assets\UIPositionChanger.cs" />
      <None Include="Assets\tarrget\tarrget.txt" />

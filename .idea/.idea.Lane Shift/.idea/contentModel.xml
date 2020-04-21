@@ -10,6 +10,7 @@
         <e p="LineDrawer.cs" t="Include" />
         <e p="ObstacleGenerator.cs" t="Include" />
         <e p="PlayerController.cs" t="Include" />
+        <e p="Restart.cs" t="Include" />
         <e p="SwipeInput.cs" t="Include" />
         <e p="UIPositionChanger.cs" t="Include" />
         <e p="tarrget" t="Include">
